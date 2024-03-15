@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Hyperledger Fabric AB Store Application</title>
+
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+   <style type="text/css">
+     header{
+       background-color: lightgray;
+       font-size:20px;
+       padding:20px;
+     }
+     header, .form-group{
+       margin-bottom: 3%;
+     }
+     .form-group{
+       width:50%;
+     }
+     #body{
+       margin-left:3%;
+       margin-right:3%;
+     }
+     .form-control{
+       margin: 8px;
+     }
+     label{
+       font-size:20px;
+     }
+   </style>
+ </head>
+ <body ng-app="application" ng-controller="AppCtrl">
+    <header>
+      <div id="left_header">Hyperledger Fabric AB Store Application</div>
+    </header>
+    <div id="body">
+      <div class="form-group">
+        <label>Init</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_init">{{init_ab}}</h5>
+        <br>
+        A: <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
+        A Value: <input class="form-control" type="text" placeholder="Ex: 100" ng-model="abstore.aval">
+        B: <input class="form-control" type="text" placeholder="Ex: Ledger" ng-model="abstore.b">
+        B Value: <input class="form-control" type="text" placeholder="Ex: 0" ng-model="abstore.bval">
+        <input id="initAB" type="submit" value="Create" class="btn btn-primary" ng-click="initAB()">
+      </div>
+      <hr>
+      <div class="form-group">
+        <h5 style="color:green;margin-bottom:2%" id="success_qurey">{{query_ab}}</h5>
+        <label>Query</label>
+        <p><input class="form-control" type="text" placeholder="Ex: A" ng-model="walletid">
+        <input id="queryAB" type="submit" value="Search" class="btn btn-primary" ng-click="queryAB()"></p>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="app.js"> </script>
+ </html>
+ 
