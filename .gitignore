@@ -1,2 +1,7 @@
 basic-network/bin
 application/node_modules
+
+basic-network/channel-artifacts
+basic-network/organizations/ordererOrganizations
+basic-network/organizations/peerOrganizations
+basic-network/system-genesis-block
