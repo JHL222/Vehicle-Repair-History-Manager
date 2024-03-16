@@ -48,10 +48,11 @@ func (t *ABstore) Init(ctx contractapi.TransactionContextInterface, A string, Av
 }
 
 // Transaction makes payment of X units from A to B
-func (t *ABstore) Invoke(ctx contractapi.TransactionContextInterface, A, B string, X int) error {
+func (t *ABstore) Invoke(ctx contractapi.TransactionContextInterface, A, B, C string, X int) error {
 	var err error
 	var Aval int
 	var Bval int
+	var Cval int
 	// Get the state from the ledger
 	// TODO: will be nice to have a GetAllState call to ledger
 	Avalbytes, err := ctx.GetStub().GetState(A)
@@ -72,10 +73,20 @@ func (t *ABstore) Invoke(ctx contractapi.TransactionContextInterface, A, B strin
 	}
 	Bval, _ = strconv.Atoi(string(Bvalbytes))
 
+	Cvalbytes, err := ctx.GetStub().GetState(C)
+	if err != nil {
+		return fmt.Errorf("Failed to get state")
+	}
+	if Cvalbytes == nil {
+		return fmt.Errorf("Entity not found")
+	}
+	Cval, _ = strconv.Atoi(string(Cvalbytes))
+	
 	// Perform the execution
 	Aval = Aval - X
-	Bval = Bval + X
-	fmt.Printf("Aval = %d, Bval = %d\n", Aval, Bval)
+	Bval = Bval + X - ( X / 10 )
+	Cval = Cval + ( X / 10 )
+	fmt.Printf("Aval = %d, Bval = %d, Cval = %d\n", Aval, Bval, Cval)
 
 	// Write the state back to the ledger
 	err = ctx.GetStub().PutState(A, []byte(strconv.Itoa(Aval)))
@@ -84,6 +95,11 @@ func (t *ABstore) Invoke(ctx contractapi.TransactionContextInterface, A, B strin
 	}
 
 	err = ctx.GetStub().PutState(B, []byte(strconv.Itoa(Bval)))
+	if err != nil {
+		return err
+	}
+
+	err = ctx.GetStub().PutState(C, []byte(strconv.Itoa(Cval)))
 	if err != nil {
 		return err
 	}
