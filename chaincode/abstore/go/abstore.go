@@ -28,11 +28,11 @@ type ABstore struct {
 	contractapi.Contract
 }
 
-func (t *ABstore) Init(ctx contractapi.TransactionContextInterface, A string, Aval int, B string, Bval int) error {
+func (t *ABstore) Init(ctx contractapi.TransactionContextInterface, A string, Aval int, B string, Bval int, C string, Cval int) error {
 	fmt.Println("ABstore Init")
 	var err error
 	// Initialize the chaincode
-	fmt.Printf("Aval = %d, Bval = %d\n", Aval, Bval)
+	fmt.Printf("Aval = %d, Bval = %d\n, Cval = %d\n", Aval, Bval,Cval)
 	// Write the state to the ledger
 	err = ctx.GetStub().PutState(A, []byte(strconv.Itoa(Aval)))
 	if err != nil {
@@ -43,6 +43,12 @@ func (t *ABstore) Init(ctx contractapi.TransactionContextInterface, A string, Av
 	if err != nil {
 		return err
 	}
+
+	err = ctx.GetStub().PutState(C, []byte(strconv.Itoa(Cval)))
+	if err != nil {
+		return err
+	}
+
 
 	return nil
 }

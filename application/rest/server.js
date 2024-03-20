@@ -13,13 +13,15 @@ app.get('/init', function (req, res) {
    let aval = req.query.aval;
    let b = req.query.b;
    let bval = req.query.bval;
-   let args = [a, aval, b, bval];
+   let c = req.query.c;
+   let cval = req.query.cval;
+   let args = [a, aval, b, bval, c, cval];
    sdk.send(false, 'Init', args, res);
 });
 
 app.get('/query', function (req, res) {
-   let a = req.query.a;
-   let args = [a];
+   let name = req.query.name;
+   let args = [name];
    sdk.send(true, 'Query', args, res);
 });
 

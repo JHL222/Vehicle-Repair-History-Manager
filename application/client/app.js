@@ -24,12 +24,12 @@ app.factory('appFactory', function($http){
     var factory = {};
  
     factory.initAB = function(data, callback){
-        $http.get('http://localhost:/init?a='+data.a+'&aval='+data.aval+'&b='+data.b+'&bval='+data.bval).success(function(output){
+        $http.get('http://localhost:/init?a='+data.a+'&aval='+data.aval+'&b='+data.b+'&bval='+data.bval+'&c='+data.c+'&cval='+data.cval).success(function(output){
             callback(output)
         });
     }
-    factory.queryAB = function(a, callback){
-        $http.get('/query?a='+a).success(function(output){
+    factory.queryAB = function(name, callback){
+        $http.get('/query?name='+name).success(function(output){
             callback(output)
         });
     }
