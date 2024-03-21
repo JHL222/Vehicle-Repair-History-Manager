@@ -145,6 +145,24 @@ func (t *ABstore) Query(ctx contractapi.TransactionContextInterface, A string) (
 	return string(Avalbytes), nil
 }
 
+func (t *ABstore) GetAllQuery(ctx contractapi.TransactionContextInterface) ([]string, error) {
+    resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
+    if err != nil {
+        return nil, err
+    }
+    defer resultsIterator.Close()
+    var wallet []string
+    for resultsIterator.HasNext() {
+        queryResponse, err := resultsIterator.Next()
+        if err != nil {
+            return nil, err
+        }
+        jsonResp := "{\"Name\":\"" + string(queryResponse.Key) + "\",\"Amount\":\"" + string(queryResponse.Value) + "\"}"
+        wallet = append(wallet, jsonResp)
+    }
+    return wallet, nil
+}
+
 func main() {
 	cc, err := contractapi.NewChaincode(new(ABstore))
 	if err != nil {
