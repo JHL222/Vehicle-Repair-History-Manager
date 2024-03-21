@@ -24,7 +24,7 @@ app.factory('appFactory', function($http){
     var factory = {};
  
     factory.initAB = function(data, callback){
-        $http.get('http://localhost:/init?a='+data.a+'&aval='+data.aval+'&b='+data.b+'&bval='+data.bval+'&c='+data.c+'&cval='+data.cval).success(function(output){
+        $http.get('/init?a='+data.a+'&aval='+data.aval+'&b='+data.b+'&bval='+data.bval+'&c='+data.c+'&cval='+data.cval).success(function(output){
             callback(output)
         });
     }
