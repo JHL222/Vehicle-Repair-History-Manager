@@ -15,7 +15,7 @@ app.get('/init', function (req, res) {
    let bval = req.query.bval;
    let c = req.query.c;
    let cval = req.query.cval;
-   let args = [a, aval, b, bval, c, cval];
+   let args = [a, aval, b, bval];
    sdk.send(false, 'Init', args, res);
 });
 
@@ -25,6 +25,5 @@ app.get('/query', function (req, res) {
    sdk.send(true, 'Query', args, res);
 });
 
-app.use(express.static(path.join(__dirname, '../client')));
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
