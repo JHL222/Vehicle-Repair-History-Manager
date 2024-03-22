@@ -53,7 +53,7 @@ if [ "$1" == "generateCert" ]; then
 elif [ "$1" == "createConfigtxgen" ]; then
  createConfigtxgen
 elif [ "$1" == "upNetwork" ]; then
- upNetwork org1peer0 orderer cli
+ upNetwork org1peer0 orderer
 elif [ "$1" == "createChannel" ]; then
  joinChannel createChannel
 elif [ "$1" == "joinChannel" ]; then
@@ -77,7 +77,7 @@ elif [ "$1" == "start" ]; then
  sleep 2
  createConfigtxgen
  sleep 2
- upNetwork org1peer0 orderer cli
+ upNetwork org1peer0 orderer
  sleep 2
  joinChannel createChannel
  joinChannel joinChannel
