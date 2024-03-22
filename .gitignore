@@ -1,7 +1,10 @@
 basic-network/bin
 application/node_modules
+application/connection-org1.json
 
 basic-network/channel-artifacts
 basic-network/organizations/ordererOrganizations
 basic-network/organizations/peerOrganizations
 basic-network/system-genesis-block
+
+basic-network/organizations/fabric-ca/org1
