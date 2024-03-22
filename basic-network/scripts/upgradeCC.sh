@@ -10,10 +10,9 @@ fi
 ## 체인코드 빌드
 echo "체인코드 빌드"
 cd ./chaincode/${1}/go/
-go mod init
 go build
 
-## 체인코드 패키지화 (package)
+## 체인코드 패키지화
 echo "체인코드 패키지화"
 cd /opt/gopath/src/github.com/hyperledger/fabric/peer
 peer lifecycle chaincode package ${1}_${2}.tar.gz \
@@ -22,7 +21,7 @@ peer lifecycle chaincode package ${1}_${2}.tar.gz \
  --label "${1}_${2}"
 
 echo "Org1 peer0 체인코드 설치"
-## Org1 체인코드 설치 (install)
+## Org1 체인코드 설치
 peer lifecycle chaincode install ${1}_${2}.tar.gz
 
 ## 체인코드 패키지 이름 환경변수 지정
