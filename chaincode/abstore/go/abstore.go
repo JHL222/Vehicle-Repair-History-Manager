@@ -17,154 +17,122 @@ limitations under the License.
 package main
 
 import (
-	"errors"
+	"encoding/json"
 	"fmt"
-	"strconv"
+
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-// ABstore Chaincode implementation
-type ABstore struct {
+type Vehicle struct {
+	ID            string `json:"id"`
+	Owner         string `json:"owner"`
+	Registration  string `json:"registration"`
+	Manufacturing string `json:"manufacturing"`
+}
+
+type VehicleRecord struct {
+	VehicleID    string  `json:"vehicleID"`
+	RepairDate   string  `json:"repairDate"`
+	RepairDetail string  `json:"repairDetail"`
+	Cost         float64 `json:"cost"`
+}
+
+type VehicleContract struct {
 	contractapi.Contract
 }
 
-func (t *ABstore) Init(ctx contractapi.TransactionContextInterface, A string, Aval int, B string, Bval int, C string, Cval int) error {
-	fmt.Println("ABstore Init")
-	var err error
-	// Initialize the chaincode
-	fmt.Printf("Aval = %d, Bval = %d\n, Cval = %d\n", Aval, Bval,Cval)
-	// Write the state to the ledger
-	err = ctx.GetStub().PutState(A, []byte(strconv.Itoa(Aval)))
+func (mc *VehicleContract) RegisterVehicle(ctx contractapi.TransactionContextInterface, id string, owner string, registration string, manufacturing string) error {
+	existing, err := ctx.GetStub().GetState(id)
+	if err != nil {
+		return fmt.Errorf("failed to read from world state: %v", err)
+	}
+	if existing != nil {
+		return fmt.Errorf("the vehicle with ID %s already exists", id)
+	}
+
+	vehicle := Vehicle{
+		ID:            id,
+		Owner:         owner,
+		Registration:  registration,
+		Manufacturing: manufacturing,
+	}
+
+	vehicleJSON, err := json.Marshal(vehicle)
 	if err != nil {
 		return err
 	}
 
-	err = ctx.GetStub().PutState(B, []byte(strconv.Itoa(Bval)))
-	if err != nil {
-		return err
-	}
-
-	err = ctx.GetStub().PutState(C, []byte(strconv.Itoa(Cval)))
-	if err != nil {
-		return err
-	}
-
-
-	return nil
+	return ctx.GetStub().PutState(id, vehicleJSON)
 }
 
-// Transaction makes payment of X units from A to B
-func (t *ABstore) Invoke(ctx contractapi.TransactionContextInterface, A, B, C string, X int) error {
-	var err error
-	var Aval int
-	var Bval int
-	var Cval int
-	// Get the state from the ledger
-	// TODO: will be nice to have a GetAllState call to ledger
-	Avalbytes, err := ctx.GetStub().GetState(A)
+func (mc *VehicleContract) GetVehicle(ctx contractapi.TransactionContextInterface, id string) (*Vehicle, error) {
+	vehicleJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
-		return fmt.Errorf("Failed to get state")
+		return nil, fmt.Errorf("failed to read from world state: %v", err)
 	}
-	if Avalbytes == nil {
-		return fmt.Errorf("Entity not found")
-	}
-	Aval, _ = strconv.Atoi(string(Avalbytes))
-
-	Bvalbytes, err := ctx.GetStub().GetState(B)
-	if err != nil {
-		return fmt.Errorf("Failed to get state")
-	}
-	if Bvalbytes == nil {
-		return fmt.Errorf("Entity not found")
-	}
-	Bval, _ = strconv.Atoi(string(Bvalbytes))
-
-	Cvalbytes, err := ctx.GetStub().GetState(C)
-	if err != nil {
-		return fmt.Errorf("Failed to get state")
-	}
-	if Cvalbytes == nil {
-		return fmt.Errorf("Entity not found")
-	}
-	Cval, _ = strconv.Atoi(string(Cvalbytes))
-	
-	// Perform the execution
-	Aval = Aval - X
-	Bval = Bval + X - ( X / 10 )
-	Cval = Cval + ( X / 10 )
-	fmt.Printf("Aval = %d, Bval = %d, Cval = %d\n", Aval, Bval, Cval)
-
-	// Write the state back to the ledger
-	err = ctx.GetStub().PutState(A, []byte(strconv.Itoa(Aval)))
-	if err != nil {
-		return err
+	if vehicleJSON == nil {
+		return nil, fmt.Errorf("the vehicle with ID %s does not exist", id)
 	}
 
-	err = ctx.GetStub().PutState(B, []byte(strconv.Itoa(Bval)))
+	var vehicle Vehicle
+	err = json.Unmarshal(vehicleJSON, &vehicle)
 	if err != nil {
-		return err
+		return nil, fmt.Errorf("failed to unmarshal vehicle JSON: %v", err)
 	}
 
-	err = ctx.GetStub().PutState(C, []byte(strconv.Itoa(Cval)))
+	return &vehicle, nil
+}
+
+// 차량의 정비 이력을 추가하는 함수
+func (mc *VehicleContract) AddVehicleRecord(ctx contractapi.TransactionContextInterface, vehicleID string, repairDate string, repairDetail string, cost float64) error {
+	record := VehicleRecord{
+		VehicleID:    vehicleID,
+		RepairDate:   repairDate,
+		RepairDetail: repairDetail,
+		Cost:         cost,
+	}
+
+	// JSON 형태로 변환
+	recordJSON, err := json.Marshal(record)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal record JSON: %v", err)
+	}
+
+	// 레코드를 상태 데이터베이스에 저장
+	err = ctx.GetStub().PutState(vehicleID+"-"+repairDate, recordJSON)
+	if err != nil {
+		return fmt.Errorf("failed to put state: %v", err)
 	}
 
 	return nil
 }
 
-// Delete  an entity from state
-func (t *ABstore) Delete(ctx contractapi.TransactionContextInterface, A string) error {
+// 특정 차량의 정비 이력을 조회하는 함수
+func (mc *VehicleContract) GetVehicleRecord(ctx contractapi.TransactionContextInterface, vehicleID string, repairDate string) (*VehicleRecord, error) {
+	// 차량과 날짜를 결합하여 키 생성
+	key := vehicleID + "-" + repairDate
 
-	// Delete the key from the state in ledger
-	err := ctx.GetStub().DelState(A)
+	// 키에 해당하는 상태 데이터베이스 레코드 조회
+	recordJSON, err := ctx.GetStub().GetState(key)
 	if err != nil {
-		return fmt.Errorf("Failed to delete state")
+		return nil, fmt.Errorf("failed to read from world state: %v", err)
+	}
+	if recordJSON == nil {
+		return nil, fmt.Errorf("the Vehicle record for vehicle %s on date %s does not exist", vehicleID, repairDate)
 	}
 
-	return nil
-}
-
-// Query callback representing the query of a chaincode
-func (t *ABstore) Query(ctx contractapi.TransactionContextInterface, A string) (string, error) {
-	var err error
-	// Get the state from the ledger
-	Avalbytes, err := ctx.GetStub().GetState(A)
+	// 조회된 JSON 데이터를 VehicleRecord 구조체로 언마샬링
+	var record VehicleRecord
+	err = json.Unmarshal(recordJSON, &record)
 	if err != nil {
-		jsonResp := "{\"Error\":\"Failed to get state for " + A + "\"}"
-		return "", errors.New(jsonResp)
+		return nil, fmt.Errorf("failed to unmarshal record JSON: %v", err)
 	}
 
-	if Avalbytes == nil {
-		jsonResp := "{\"Error\":\"Nil amount for " + A + "\"}"
-		return "", errors.New(jsonResp)
-	}
-
-	jsonResp := "{\"Name\":\"" + A + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
-	fmt.Printf("Query Response:%s\n", jsonResp)
-	return string(Avalbytes), nil
-}
-
-func (t *ABstore) GetAllQuery(ctx contractapi.TransactionContextInterface) ([]string, error) {
-    resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
-    if err != nil {
-        return nil, err
-    }
-    defer resultsIterator.Close()
-    var wallet []string
-    for resultsIterator.HasNext() {
-        queryResponse, err := resultsIterator.Next()
-        if err != nil {
-            return nil, err
-        }
-        jsonResp := "{\"Name\":\"" + string(queryResponse.Key) + "\",\"Amount\":\"" + string(queryResponse.Value) + "\"}"
-        wallet = append(wallet, jsonResp)
-    }
-    return wallet, nil
+	return &record, nil
 }
 
 func main() {
-	cc, err := contractapi.NewChaincode(new(ABstore))
+	cc, err := contractapi.NewChaincode(new(VehicleContract))
 	if err != nil {
 		panic(err.Error())
 	}
