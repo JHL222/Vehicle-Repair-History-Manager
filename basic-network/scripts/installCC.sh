@@ -39,7 +39,7 @@ peer lifecycle chaincode approveformyorg \
  --name ${1} \
  --version 1 \
  --package-id $PACKAGE_ID \
- --sequence 2 NA NA NA
+ --sequence 1 NA NA NA
 
 ## 체인코드 Commit
 echo "체인코드 커밋"
@@ -53,4 +53,4 @@ peer lifecycle chaincode commit \
  --peerAddresses peer0.org1.example.com:7051 \
  --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt \
  --version 1 \
- --sequence 2 NA NA NA
+ --sequence 1 NA NA NA
