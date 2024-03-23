@@ -52,33 +52,23 @@
 </div>
 
 ```
-
 git clone https://github.com/JHL222/dev-mode.git
-
 ```
 ```
-
 cd $GOPATH/src/dev-mode
 cp -r ../fabric-samples/bin/ .
-
 ```
 ```
-
 ./network.sh start
-
 ```
 ```
-
 cd $GOPATH/src/dev-mode
 ./network.sh installCC abstore
 ./network.sh checkCC
 ./network.sh upgradeCC abstore 1.1.0
-
 ```
 ```
-
 ./network.sh startSDK
-
 ```
 
 <div align="center">
