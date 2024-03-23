@@ -4,7 +4,7 @@ let path = require('path');
 let sdk = require('./sdk');
 
 const PORT = 8001;
-const HOST = '0.0.0.0';
+const HOST = 'localhost';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
