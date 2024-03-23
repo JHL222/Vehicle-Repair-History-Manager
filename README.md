@@ -60,7 +60,6 @@ git clone https://github.com/JHL222/dev-mode.git
 ```
 
 cd $GOPATH/src/dev-mode
-
 cp -r ../fabric-samples/bin/ .
 
 ```
@@ -73,11 +72,8 @@ cp -r ../fabric-samples/bin/ .
 ```
 
 cd $GOPATH/src/dev-mode
-
 ./network.sh installCC abstore
-
 ./network.sh checkCC
-
 ./network.sh upgradeCC abstore 1.1.0
 
 ```
