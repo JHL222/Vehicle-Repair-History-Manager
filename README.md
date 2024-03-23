@@ -38,17 +38,13 @@
 
 # 2-2. 버전
 
-–cURL <br/>
-–도커Docker Community Edition CE 23.0.6 <br/>
-–도커 Compose 1.27.4 이상 <br/>
-–Go 언어 1.16.7 <br/>
-–Git 2.9.x 이상 <br/>
-–Python 2.7.18 <br/>
-–Node.js 12.13.1 <br/>
-–npm 5.6.0 <br/>
-–VSCode <br/>
-–JAVA jdk 8 <br/>
-–Gradle 2.12 이상 <br/>
+cURL <br/>
+도커Docker Community Edition CE 23.0.6 <br/>
+도커 Compose 1.27.4<br/>
+Go 1.16.7 <br/>
+Python 2.7.18 <br/>
+Node.js 12.13.1 <br/>
+npm 5.6.0 <br/>
 
 
 # 2-3. 환경 설정
