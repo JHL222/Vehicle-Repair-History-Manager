@@ -81,8 +81,8 @@ cd $GOPATH/src/dev-mode
 |메인페이지1|메인페이지2|차량 정보 등록|
 |<img width="500" alt="4" src="https://github.com/JHL222/dev-mode/assets/160108023/1817fd07-21b5-48e8-bf3d-aee03d57be60">|<img width="500" alt="5" src="https://github.com/JHL222/dev-mode/assets/160108023/70050f86-1000-4b99-93d0-d8f4a134a707">|<img width="500" alt="6" src="https://github.com/JHL222/dev-mode/assets/160108023/9c6f546d-0c11-4558-af2c-8c61a6886fff">|
 |차량 정보 조회|차량 수리내역 등록|차량 수리내역 조회|
-|<img width="500" alt="7" src="https://github.com/JHL222/dev-mode/assets/160108023/e1ead211-61db-4d66-a1df-5bdbb57c20e1">|
-|함수 실행 시 터미널 로그|
+||<img width="500" alt="7" src="https://github.com/JHL222/dev-mode/assets/160108023/e1ead211-61db-4d66-a1df-5bdbb57c20e1">||
+||함수 실행 시 터미널 로그||
 
 ***
 
