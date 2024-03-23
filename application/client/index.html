@@ -89,9 +89,9 @@
 
     <hr>
 
-    <h2>Get Vehicle</h2>
+    <h2>Search Vehicle</h2>
     <label for="vehicleId">Vehicle ID:</label>
-    <input type="text" id="vehicleId" ng-model="searchId">
+    <input type="text" id="vehicleId" ng-model="searchId"><br/>
     <button ng-click="getVehicle(searchId)">Search</button>
 
     <div ng-if="vehicle">
@@ -104,7 +104,7 @@
 
     <hr>
 
-    <h2>Add Vehicle Record</h2>
+    <h2>Add Vehicle Repair Record</h2>
     <form ng-submit="addVehicleRecord()">
         <label for="vehicleID">Vehicle ID:</label>
         <input type="text" id="vehicleID" ng-model="vehicleID" required><br>
@@ -123,12 +123,12 @@
 
     <hr>
 
-    <h2>Get Vehicle Record</h2>
+    <h2>Search Vehicle Repair Record</h2>
     <label for="recordVehicleID">Vehicle ID:</label>
     <input type="text" id="recordVehicleID" ng-model="recordVehicleID">
 
     <label for="recordDate">Repair Date:</label>
-    <input type="text" id="recordDate" ng-model="recordDate">
+    <input type="text" id="recordDate" ng-model="recordDate"><br/>
     
     <button ng-click="getVehicleRecord(recordVehicleID, recordDate)">Search</button>
 
