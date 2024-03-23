@@ -49,6 +49,7 @@
 
 
 # 2-3. 환경 설정
+</div>
 
 ```
 
@@ -71,6 +72,8 @@ cd $GOPATH/src/dev-mode
 ./network.sh startSDK
 
 ```
+
+<div align="center">
 
 # 3. 화면구성
 
