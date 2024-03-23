@@ -1,6 +1,8 @@
 basic-network/bin
 application/node_modules
 application/connection-org1.json
+application/wallet
+chaincode/abstore/go/go
 
 basic-network/channel-artifacts
 basic-network/organizations/ordererOrganizations
