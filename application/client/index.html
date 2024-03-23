@@ -1,63 +1,83 @@
 <!DOCTYPE html>
-<html>
- <head>
-   <title>Hyperledger Fabric AB Store Application</title>
+<html lang="en" ng-app="vehicleApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Management</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="VehicleController">
+    <h1>Vehicle Management</h1>
 
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <h2>Register Vehicle</h2>
+    <form ng-submit="registerVehicle()">
+        <label for="id">ID:</label>
+        <input type="text" id="id" ng-model="id" required><br>
 
-   <style type="text/css">
-     header{
-       background-color: lightgray;
-       font-size:20px;
-       padding:20px;
-     }
-     header, .form-group{
-       margin-bottom: 3%;
-     }
-     .form-group{
-       width:50%;
-     }
-     #body{
-       margin-left:3%;
-       margin-right:3%;
-     }
-     .form-control{
-       margin: 8px;
-     }
-     label{
-       font-size:20px;
-     }
-   </style>
- </head>
- <body ng-app="application" ng-controller="AppCtrl">
-    <header>
-      <div id="left_header">Hyperledger Fabric AB Store Application</div>
-    </header>
-    <div id="body">
-      <div class="form-group">
-        <label>Init</label>
-        <h5 style="color:green;margin-bottom:2%" id="success_init">{{init_ab}}</h5>
-        <br>
-        A: <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
-        A Value: <input class="form-control" type="text" placeholder="Ex: 100" ng-model="abstore.aval">
-        B: <input class="form-control" type="text" placeholder="Ex: Ledger" ng-model="abstore.b">
-        B Value: <input class="form-control" type="text" placeholder="Ex: 0" ng-model="abstore.bval">
-        C: <input class="form-control" type="text" placeholder="Ex: Ledger" ng-model="abstore.c">
-        C Value: <input class="form-control" type="text" placeholder="Ex: 0" ng-model="abstore.cval">
-        <input id="initAB" type="submit" value="Create" class="btn btn-primary" ng-click="initAB()">
-      </div>
-      <hr>
-      <div class="form-group">
-        <h5 style="color:green;margin-bottom:2%" id="success_qurey">{{query_ab}}</h5>
-        <label>Query</label>
-        <p><input class="form-control" type="text" placeholder="Ex: A" ng-model="walletid">
-        <input id="queryAB" type="submit" value="Search" class="btn btn-primary" ng-click="queryAB()"></p>
-      </div>
+        <label for="owner">Owner:</label>
+        <input type="text" id="owner" ng-model="owner" required><br>
+
+        <label for="registration">Registration:</label>
+        <input type="text" id="registration" ng-model="registration" required><br>
+
+        <label for="manufacturing">Manufacturing:</label>
+        <input type="text" id="manufacturing" ng-model="manufacturing" required><br>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <hr>
+
+    <h2>Get Vehicle</h2>
+    <label for="vehicleId">Vehicle ID:</label>
+    <input type="text" id="vehicleId" ng-model="searchId">
+    <button ng-click="getVehicle(searchId)">Search</button>
+
+    <div ng-if="vehicle">
+        <h3>Vehicle Details:</h3>
+        <p>ID: {{ vehicle.id }}</p>
+        <p>Owner: {{ vehicle.owner }}</p>
+        <p>Registration: {{ vehicle.registration }}</p>
+        <p>Manufacturing: {{ vehicle.manufacturing }}</p>
     </div>
-  </body>
-  <script type="text/javascript" src="app.js"> </script>
- </html>
- 
+
+    <hr>
+
+    <h2>Add Vehicle Record</h2>
+    <form ng-submit="addVehicleRecord()">
+        <label for="vehicleID">Vehicle ID:</label>
+        <input type="text" id="vehicleID" ng-model="vehicleID" required><br>
+
+        <label for="repairDate">Repair Date:</label>
+        <input type="text" id="repairDate" ng-model="repairDate" required><br>
+
+        <label for="repairDetail">Repair Detail:</label>
+        <input type="text" id="repairDetail" ng-model="repairDetail" required><br>
+
+        <label for="cost">Cost:</label>
+        <input type="text" id="cost" ng-model="cost" required><br>
+
+        <button type="submit">Add Record</button>
+    </form>
+
+    <hr>
+
+    <h2>Get Vehicle Record</h2>
+    <label for="recordVehicleID">Vehicle ID:</label>
+    <input type="text" id="recordVehicleID" ng-model="recordVehicleID">
+
+    <label for="recordDate">Repair Date:</label>
+    <input type="text" id="recordDate" ng-model="recordDate">
+    
+    <button ng-click="getVehicleRecord(recordVehicleID, recordDate)">Search</button>
+
+    <div ng-if="record">
+        <h3>Vehicle Record Details:</h3>
+        <p>Vehicle ID: {{ record.vehicleID }}</p>
+        <p>Repair Date: {{ record.repairDate }}</p>
+        <p>Repair Detail: {{ record.repairDetail }}</p>
+        <p>Cost: {{ record.cost }}</p>
+    </div>
+</body>
+</html>
