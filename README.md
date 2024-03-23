@@ -28,7 +28,6 @@
 <img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=Express&logoColor=white"/>
 <img src="https://img.shields.io/badge/Angular-0F0F11?style=flat-square&logo=Angular&logoColor=white"/>
 <img src="https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=Go&logoColor=white"/>
-<img src="https://img.shields.io/badge/Angular-0F0F11?style=flat-square&logo=Angular&logoColor=white"/>
 
 ***
 
